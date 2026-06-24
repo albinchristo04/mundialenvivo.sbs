@@ -1,0 +1,63 @@
+---
+import { site } from "@/config/site";
+
+export interface Props {
+  matchLabel?: string;
+  countryName?: string;
+}
+
+const { matchLabel, countryName } = Astro.props;
+const text = matchLabel
+  ? `Ver ${matchLabel} en el canal oficial`
+  : countryName
+  ? `Ver el Mundial 2026 en ${countryName} — canal oficial`
+  : "Ver el Mundial 2026 en el canal oficial de tu país";
+---
+
+<div class="official-banner">
+  <span class="live-dot" aria-hidden="true"></span>
+  <span class="banner-text">{text}</span>
+  <a href={site.fifaWatchUrl} target="_blank" rel="noopener" class="banner-link">
+    Ver canales oficiales FIFA →
+  </a>
+</div>
+
+<style>
+  .official-banner {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    background: linear-gradient(90deg, #1a5c2a, #2d8a47, #1a5c2a);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    margin: 0 0 1.25rem;
+    box-shadow: 0 2px 8px rgba(26, 92, 42, 0.3);
+  }
+  .banner-text { flex: 1; min-width: 0; }
+  .banner-link {
+    color: #fff;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 6px;
+    padding: .25rem .75rem;
+    font-size: .85rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .banner-link:hover { background: rgba(255,255,255,0.25); color: #fff; }
+  .live-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%; background: #4ade80;
+    flex-shrink: 0;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:.4; transform:scale(.75); }
+  }
+  @media (max-width:600px) { .official-banner { font-size:.85rem; } }
+</style>

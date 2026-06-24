@@ -1,0 +1,9 @@
+# Mundial en Vivo 2026 — robots.txt
+# https://mundialenvivo.sbs
+
+# Allow all bots full access
+User-agent: *
+Allow: /
+
+# Sitemap (auto-discovered by all engines)
+Sitemap: https://mundialenvivo.sbs/sitemap.xml

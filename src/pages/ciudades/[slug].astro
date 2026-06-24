@@ -1,0 +1,107 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/config/site";
+import { hostCities, getCityBySlug } from "@/data/cities";
+import { fixtures, localTime } from "@/utils/fixtures";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return hostCities.map((c) => ({
+    params: { slug: c.slug },
+    props: { city: c },
+  }));
+};
+
+const { city } = Astro.props;
+
+const cityMatches = fixtures
+  .filter((f) => f.city.toLowerCase() === city.name.toLowerCase() ||
+                 f.city.toLowerCase().includes(city.name.toLowerCase().split(" ")[0].toLowerCase()))
+  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+const breadcrumbs = [
+  { name: "Inicio", item: site.url },
+  { name: "Ciudades Sede", item: `${site.url}/ciudades` },
+  { name: city.name, item: `${site.url}/ciudades/${city.slug}` },
+];
+
+const faqs = [
+  {
+    q: `¿Cuántos partidos del Mundial 2026 se juegan en ${city.name}?`,
+    a: `${city.name} alberga ${cityMatches.length} partido(s) del Mundial 2026 en el ${city.stadiumName}.`,
+  },
+  {
+    q: `¿Qué estadio se usa en ${city.name} para el Mundial 2026?`,
+    a: `En ${city.name} se juegan los partidos en el ${city.stadiumName}.`,
+  },
+];
+---
+
+<BaseLayout
+  title={`${city.name} — Ciudad Sede del Mundial 2026: Partidos y Estadio`}
+  description={`${city.name} es sede del Mundial 2026. Conocé todos los partidos en el ${city.stadiumName}, información para visitantes y horarios del torneo.`}
+  canonical={`${site.url}/ciudades/${city.slug}`}
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+>
+  <h1>{city.name} — Sede del Mundial 2026</h1>
+  <p>{city.description}</p>
+
+  <table style="margin-bottom:1rem">
+    <tbody>
+      <tr><td><strong>País</strong></td><td>{city.country}</td></tr>
+      <tr><td><strong>Estadio</strong></td><td><a href={`/estadios/${city.stadiumSlug}`}>{city.stadiumName}</a></td></tr>
+      <tr><td><strong>Partidos WC 2026</strong></td><td>{cityMatches.length}</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Información para Visitantes — {city.name}</h2>
+  <p>{city.visitorInfo}</p>
+
+  <h2>Partidos del Mundial 2026 en {city.name}</h2>
+  {cityMatches.length === 0 ? (
+    <p>Los partidos en esta ciudad se actualizan conforme avanza el torneo.</p>
+  ) : (
+    <table>
+      <thead>
+        <tr>
+          <th>Partido</th>
+          <th>Fase</th>
+          <th>Fecha</th>
+          <th>ARG/URU</th>
+          <th>COL/PER</th>
+          <th>CDMX</th>
+        </tr>
+      </thead>
+      <tbody>
+        {cityMatches.map((m) => {
+          const d = new Date(m.date);
+          const dateStr = d.toLocaleDateString("es-AR", { day: "numeric", month: "short", timeZone: "UTC" });
+          return (
+            <tr>
+              <td><a href={`/${m.slug}`}>{m.teamA} vs {m.teamB}</a></td>
+              <td style="font-size:.85rem">{m.group ? `Grupo ${m.group}` : (m.stage ?? "")}</td>
+              <td style="white-space:nowrap;font-size:.85rem">{dateStr}</td>
+              <td>{localTime(m.date, -3)}</td>
+              <td>{localTime(m.date, -5)}</td>
+              <td>{localTime(m.date, -6)}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  )}
+
+  <h2>Preguntas Frecuentes — {city.name} Mundial 2026</h2>
+  {faqs.map(({ q, a }) => (
+    <div style="margin-bottom:1rem">
+      <h3>{q}</h3>
+      <p>{a}</p>
+    </div>
+  ))}
+
+  <p style="margin-top:1.5rem">
+    ← <a href="/calendario">Calendario completo</a> ·
+    <a href={`/estadios/${city.stadiumSlug}`}>{city.stadiumName}</a>
+  </p>
+</BaseLayout>

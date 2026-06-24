@@ -1,0 +1,153 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/config/site";
+import { fixtures, localTime } from "@/utils/fixtures";
+
+const r32 = fixtures.filter((f) => f.stage === "r32").sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+const r16 = fixtures.filter((f) => f.stage === "r16").sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+const qf  = fixtures.filter((f) => f.stage === "qf").sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+const sf  = fixtures.filter((f) => f.stage === "sf").sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+const third = fixtures.filter((f) => f.stage === "third");
+const final = fixtures.filter((f) => f.stage === "final");
+
+const breadcrumbs = [
+  { name: "Inicio", item: site.url },
+  { name: "Cuadro Mundial 2026", item: `${site.url}/cuadro-mundial-2026` },
+];
+
+const faqs = [
+  {
+    q: "¿Cuándo empieza la fase eliminatoria del Mundial 2026?",
+    a: "Los dieciseisavos de final del Mundial 2026 comienzan el 28 de junio de 2026, después de que concluya la fase de grupos el 27 de junio.",
+  },
+  {
+    q: "¿Cuándo es la Final del Mundial 2026?",
+    a: "La Final del Mundial 2026 se disputará el 19 de julio de 2026 en el MetLife Stadium de Nueva York (East Rutherford, Nueva Jersey).",
+  },
+  {
+    q: "¿Cuántos equipos juegan la fase eliminatoria del Mundial 2026?",
+    a: "32 equipos juegan los dieciseisavos de final del Mundial 2026: los 3 primeros de cada uno de los 12 grupos más los 8 mejores terceros.",
+  },
+];
+
+interface MatchEntry {
+  slug: string;
+  teamA: string;
+  teamB: string;
+  date: string;
+  city: string;
+  venue: string;
+}
+
+function renderRound(title: string, matches: typeof r32) {
+  return { title, matches };
+}
+
+const rounds = [
+  renderRound("Dieciseisavos de Final", r32),
+  renderRound("Octavos de Final", r16),
+  renderRound("Cuartos de Final", qf),
+  renderRound("Semifinales", sf),
+];
+---
+
+<BaseLayout
+  title="Cuadro del Mundial 2026 — Fase Eliminatoria: Dieciseisavos, Octavos, Cuartos, Semis y Final"
+  description="Cuadro completo del Mundial 2026: dieciseisavos, octavos de final, cuartos, semifinales y final. Fechas, horarios y sedes de la fase eliminatoria."
+  canonical={`${site.url}/cuadro-mundial-2026`}
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+>
+  <h1>Cuadro del Mundial 2026 — Fase Eliminatoria</h1>
+  <p>
+    Fase eliminatoria completa del <strong>Mundial 2026</strong>: dieciseisavos, octavos de final,
+    cuartos de final, semifinales y final. Todos los partidos con horarios para Argentina, Colombia y México.
+  </p>
+
+  {rounds.map(({ title, matches }) => (
+    <section>
+      <h2>{title}</h2>
+      {matches.length === 0 ? (
+        <p style="color:#555;font-size:.9rem">Los cruces se definen tras la fase de grupos.</p>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Partido</th>
+              <th>Fecha</th>
+              <th>ARG/URU</th>
+              <th>COL/PER</th>
+              <th>CDMX</th>
+              <th>Sede</th>
+            </tr>
+          </thead>
+          <tbody>
+            {matches.map((m) => {
+              const d = new Date(m.date);
+              const dateStr = d.toLocaleDateString("es-AR", { day: "numeric", month: "short", timeZone: "UTC" });
+              return (
+                <tr>
+                  <td><a href={`/${m.slug}`}>{m.teamA} vs {m.teamB}</a></td>
+                  <td style="white-space:nowrap;font-size:.85rem">{dateStr}</td>
+                  <td>{localTime(m.date, -3)}</td>
+                  <td>{localTime(m.date, -5)}</td>
+                  <td>{localTime(m.date, -6)}</td>
+                  <td style="font-size:.8rem;color:#555">{m.city}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
+    </section>
+  ))}
+
+  <section>
+    <h2>Partido por el Tercer Puesto</h2>
+    {third.length === 0 ? (
+      <p style="color:#555;font-size:.9rem">Se define tras las semifinales.</p>
+    ) : (
+      third.map((m) => (
+        <div class="match-card">
+          <div class="teams"><a href={`/${m.slug}`}>{m.teamA} vs {m.teamB}</a></div>
+          <div class="meta">{m.venue}, {m.city}</div>
+          <div class="tz-block">
+            ARG/URU: {localTime(m.date, -3)} · COL/PER: {localTime(m.date, -5)} · CDMX: {localTime(m.date, -6)}
+          </div>
+        </div>
+      ))
+    )}
+  </section>
+
+  <section>
+    <h2>🏆 Final del Mundial 2026</h2>
+    {final.length === 0 ? (
+      <p style="color:#555;font-size:.9rem">La final se disputará el 19 de julio de 2026 en el MetLife Stadium, Nueva York.</p>
+    ) : (
+      final.map((m) => (
+        <div class="match-card" style="border-color:#f59e0b;background:#fffbeb">
+          <div class="teams" style="font-size:1.35rem"><a href={`/${m.slug}`}>{m.teamA} vs {m.teamB}</a></div>
+          <div class="meta">{m.venue}, {m.city}</div>
+          <div class="tz-block">
+            ARG/URU: {localTime(m.date, -3)} · COL/PER: {localTime(m.date, -5)} · CDMX: {localTime(m.date, -6)}
+          </div>
+        </div>
+      ))
+    )}
+    <p>La Final del Mundial 2026 se juega el <strong>19 de julio de 2026</strong> en el <strong>MetLife Stadium, Nueva York</strong>.</p>
+  </section>
+
+  <h2>Preguntas Frecuentes — Cuadro Mundial 2026</h2>
+  {faqs.map(({ q, a }) => (
+    <div style="margin-bottom:1rem">
+      <h3>{q}</h3>
+      <p>{a}</p>
+    </div>
+  ))}
+
+  <p style="margin-top:1.5rem">
+    ← <a href="/">Inicio</a> ·
+    <a href="/tabla-posiciones">Tabla de posiciones</a> ·
+    <a href="/calendario">Calendario completo</a>
+  </p>
+</BaseLayout>

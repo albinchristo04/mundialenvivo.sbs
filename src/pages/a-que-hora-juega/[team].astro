@@ -1,0 +1,140 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import BroadcasterList from "@/components/BroadcasterList.astro";
+import { site } from "@/config/site";
+import { teams, getTeamBySlug } from "@/data/teams";
+import { fixtures, localTime } from "@/utils/fixtures";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return teams.map((t) => ({
+    params: { team: t.slug },
+    props: { team: t },
+  }));
+};
+
+const { team } = Astro.props;
+
+const teamMatches = fixtures
+  .filter(
+    (f) =>
+      f.teamA.toLowerCase().includes(team.name.toLowerCase()) ||
+      f.teamB.toLowerCase().includes(team.name.toLowerCase())
+  )
+  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+// Determine most-likely viewer country code from team
+const viewerCountry: Record<string, { code: string; name: string }> = {
+  argentina:     { code: "AR", name: "Argentina" },
+  mexico:        { code: "MX", name: "México" },
+  colombia:      { code: "CO", name: "Colombia" },
+  brasil:        { code: "BR", name: "Brasil" },
+  chile:         { code: "CL", name: "Chile" },
+  peru:          { code: "PE", name: "Perú" },
+  ecuador:       { code: "EC", name: "Ecuador" },
+  venezuela:     { code: "VE", name: "Venezuela" },
+  uruguay:       { code: "UY", name: "Uruguay" },
+  "costa-rica":  { code: "CR", name: "Costa Rica" },
+  panama:        { code: "PA", name: "Panamá" },
+  bolivia:       { code: "BO", name: "Bolivia" },
+  "el-salvador": { code: "SV", name: "El Salvador" },
+  honduras:      { code: "HN", name: "Honduras" },
+  nicaragua:     { code: "NI", name: "Nicaragua" },
+};
+
+const viewerInfo = viewerCountry[team.slug] ?? { code: "AR", name: "Argentina" };
+
+const breadcrumbs = [
+  { name: "Inicio", item: site.url },
+  { name: `¿A qué hora juega ${team.name}?`, item: `${site.url}/a-que-hora-juega/${team.slug}` },
+];
+
+const faqs = [
+  {
+    q: `¿A qué hora juega ${team.name} en el Mundial 2026?`,
+    a: teamMatches.length > 0
+      ? `El primer partido de ${team.name} en el Mundial 2026 es contra ${teamMatches[0]!.teamA === team.name ? teamMatches[0]!.teamB : teamMatches[0]!.teamA}. Los horarios varían según la sede y tu zona horaria.`
+      : `Los horarios de los partidos de ${team.name} en el Mundial 2026 se actualizarán con el calendario oficial.`,
+  },
+  {
+    q: `¿En qué grupo está ${team.name} en el Mundial 2026?`,
+    a: `${team.name} está en el Grupo ${team.group} del Mundial 2026.`,
+  },
+  {
+    q: `¿Cuántos partidos juega ${team.name} en la fase de grupos?`,
+    a: `${team.name} juega 3 partidos en la fase de grupos del Mundial 2026 (Grupo ${team.group}).`,
+  },
+];
+---
+
+<BaseLayout
+  title={`¿A Qué Hora Juega ${team.name}? — Mundial 2026 Horarios y Partidos`}
+  description={`Horarios de los partidos de ${team.name} en el Mundial 2026. Consulta cuándo juega ${team.name}, contra quién y a qué hora en Argentina, Colombia, México y toda LATAM.`}
+  canonical={`${site.url}/a-que-hora-juega/${team.slug}`}
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+>
+  <h1>¿A Qué Hora Juega {team.flag} {team.name} en el Mundial 2026?</h1>
+  <p>
+    Todos los partidos de <strong>{team.name}</strong> en el Mundial 2026 con horarios para
+    Argentina, Colombia, Perú, México y toda América Latina.
+    {team.name} integra el <strong>Grupo {team.group}</strong>.
+  </p>
+
+  {teamMatches.length > 0 ? (
+    <>
+      <h2>Partidos de {team.name} — Mundial 2026</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Partido</th>
+            <th>Fecha UTC</th>
+            <th>ARG/URU<br/>(UTC-3)</th>
+            <th>COL/PER/ECU<br/>(UTC-5)</th>
+            <th>CDMX<br/>(UTC-6)</th>
+            <th>CHI/VEN<br/>(UTC-4)</th>
+            <th>Sede</th>
+          </tr>
+        </thead>
+        <tbody>
+          {teamMatches.map((m) => {
+            const d = new Date(m.date);
+            const dateStr = d.toLocaleDateString("es-AR", {
+              weekday: "short", day: "numeric", month: "short", timeZone: "UTC"
+            });
+            return (
+              <tr>
+                <td><a href={`/${m.slug}`}><strong>{m.teamA}</strong> vs <strong>{m.teamB}</strong></a></td>
+                <td style="white-space:nowrap;font-size:.85rem">{dateStr}</td>
+                <td style="font-weight:500">{localTime(m.date, -3)} hs</td>
+                <td>{localTime(m.date, -5)} hs</td>
+                <td>{localTime(m.date, -6)} hs</td>
+                <td>{localTime(m.date, -4)} hs</td>
+                <td style="font-size:.8rem;color:#555">{m.city}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </>
+  ) : (
+    <p>Los horarios de los partidos de {team.name} en el Mundial 2026 se confirmarán próximamente.</p>
+  )}
+
+  <h2>¿Dónde Ver {team.name} en el Mundial 2026?</h2>
+  <BroadcasterList countryCode={viewerInfo.code} countryName={viewerInfo.name} />
+
+  <h2>Preguntas Frecuentes — {team.name} en el Mundial 2026</h2>
+  {faqs.map(({ q, a }) => (
+    <div style="margin-bottom:1rem">
+      <h3>{q}</h3>
+      <p>{a}</p>
+    </div>
+  ))}
+
+  <p style="margin-top:1.5rem">
+    ← <a href={`/equipos/${team.slug}`}>Equipo: {team.name}</a> ·
+    <a href={`/grupo-${team.group.toLowerCase()}`}>Grupo {team.group}</a> ·
+    <a href="/calendario">Calendario completo</a>
+  </p>
+</BaseLayout>

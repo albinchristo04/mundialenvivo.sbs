@@ -1,0 +1,111 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/config/site";
+import { teams } from "@/data/teams";
+import { fixtures } from "@/utils/fixtures";
+
+const groups = ["A","B","C","D","E","F","G","H","I","J","K","L"];
+
+const breadcrumbs = [
+  { name: "Inicio", item: site.url },
+  { name: "Tabla de Posiciones", item: `${site.url}/tabla-posiciones` },
+];
+
+const faqs = [
+  {
+    q: "¿Cuántos equipos clasifican de cada grupo en el Mundial 2026?",
+    a: "En el Mundial 2026 clasifican los 3 primeros equipos de cada grupo, más los 8 mejores terceros de los 12 grupos. En total, 32 equipos avanzan a los dieciseisavos de final.",
+  },
+  {
+    q: "¿Cómo se desempata en la tabla del Mundial 2026?",
+    a: "Los criterios de desempate en el Mundial 2026 son: 1) Puntos, 2) Diferencia de gol, 3) Goles a favor, 4) Resultado en el enfrentamiento directo, 5) Disciplina (tarjetas), 6) Ranking FIFA.",
+  },
+];
+---
+
+<BaseLayout
+  title="Tabla de Posiciones Mundial 2026 — Standings por Grupo (A al L)"
+  description="Tabla de posiciones del Mundial 2026 por grupo: Grupos A, B, C, D, E, F, G, H, I, J, K y L. Equipos clasificados y posiciones actualizadas."
+  canonical={`${site.url}/tabla-posiciones`}
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+>
+  <h1>Tabla de Posiciones — Mundial 2026</h1>
+  <p>
+    Posiciones actualizadas de los 12 grupos del <strong>Mundial 2026</strong>.
+    Los 3 primeros de cada grupo más los 8 mejores terceros clasifican a los dieciseisavos de final.
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin:1rem 0">
+    {groups.map((g) => {
+      const groupTeams = teams.filter((t) => t.group === g);
+      const groupMatches = fixtures.filter((f) => f.group === g);
+      return (
+        <div style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden">
+          <div style="background:#f3f4f6;padding:.5rem 1rem;font-weight:700;display:flex;justify-content:space-between;align-items:center">
+            <span>Grupo {g}</span>
+            <a href={`/grupo-${g.toLowerCase()}`} style="font-size:.8rem;font-weight:400">Ver grupo →</a>
+          </div>
+          <table style="margin:0;font-size:.875rem">
+            <thead>
+              <tr>
+                <th style="padding:.35rem .5rem">Equipo</th>
+                <th style="padding:.35rem .5rem;text-align:center">PJ</th>
+                <th style="padding:.35rem .5rem;text-align:center">PTS</th>
+              </tr>
+            </thead>
+            <tbody>
+              {groupTeams.map((t, i) => (
+                <tr>
+                  <td style="padding:.3rem .5rem">
+                    <a href={`/equipos/${t.slug}`}>{t.flag} {t.name}</a>
+                  </td>
+                  <td style="padding:.3rem .5rem;text-align:center;color:#555">0</td>
+                  <td style="padding:.3rem .5rem;text-align:center;font-weight:700">0</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    })}
+  </div>
+
+  <p style="font-size:.85rem;color:#555;background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:.75rem 1rem;margin:.5rem 0">
+    La tabla se actualizará con los resultados a medida que se disputen los partidos.
+    Las posiciones mostradas representan el estado al inicio del torneo.
+  </p>
+
+  <h2>Grupos del Mundial 2026 — Resumen</h2>
+  <table>
+    <thead>
+      <tr><th>Grupo</th><th>Equipos</th><th>Ver</th></tr>
+    </thead>
+    <tbody>
+      {groups.map((g) => {
+        const groupTeams = teams.filter((t) => t.group === g);
+        return (
+          <tr>
+            <td><strong>Grupo {g}</strong></td>
+            <td>{groupTeams.map((t) => t.flag + " " + t.name).join(", ")}</td>
+            <td><a href={`/grupo-${g.toLowerCase()}`}>Ver →</a></td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+
+  <h2>Preguntas Frecuentes — Tabla de Posiciones Mundial 2026</h2>
+  {faqs.map(({ q, a }) => (
+    <div style="margin-bottom:1rem">
+      <h3>{q}</h3>
+      <p>{a}</p>
+    </div>
+  ))}
+
+  <p style="margin-top:1.5rem">
+    ← <a href="/">Inicio</a> ·
+    <a href="/calendario">Calendario</a> ·
+    <a href="/cuadro-mundial-2026">Cuadro del torneo</a>
+  </p>
+</BaseLayout>

@@ -1,0 +1,90 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/config/site";
+import { fixtures } from "@/utils/fixtures";
+import { teams } from "@/data/teams";
+
+const breadcrumbs = [
+  { name: "Inicio", item: site.url },
+  { name: "Buscar", item: `${site.url}/buscar` },
+];
+
+// Build search index for client-side search
+const searchIndex = [
+  ...fixtures.map(f => ({
+    type: "partido",
+    title: `${f.teamA} vs ${f.teamB}`,
+    url: `/${f.slug}`,
+    meta: `${f.city} · ${f.group ? `Grupo ${f.group}` : (f.stage ?? "")}`,
+  })),
+  ...teams.map(t => ({
+    type: "equipo",
+    title: `${t.flag} ${t.name}`,
+    url: `/equipos/${t.slug}`,
+    meta: `Grupo ${t.group} — Mundial 2026`,
+  })),
+  { type: "pagina", title: "Calendario Mundial 2026", url: "/calendario", meta: "Todos los partidos" },
+  { type: "pagina", title: "Tabla de Posiciones", url: "/tabla-posiciones", meta: "Standings por grupo" },
+  { type: "pagina", title: "Cuadro del Mundial 2026", url: "/cuadro-mundial-2026", meta: "Fases eliminatorias" },
+  { type: "pagina", title: "Partidos de Hoy", url: "/partidos-hoy", meta: "Mundial 2026 hoy" },
+];
+---
+
+<BaseLayout
+  title="Buscar — Mundial 2026 | Equipos, Partidos y Países"
+  description="Buscá partidos, equipos y países del Mundial 2026. Encontrá información sobre cualquier selección, partido o sede del torneo."
+  breadcrumbs={breadcrumbs}
+  promoBanner={false}
+>
+  <h1>Buscar en Mundial en Vivo 2026</h1>
+  <p>Buscá partidos, equipos, países o sedes del Mundial 2026.</p>
+
+  <div style="margin:1rem 0">
+    <input
+      type="search"
+      id="search-input"
+      placeholder="Ej: Argentina, España vs, Estadio Azteca..."
+      style="width:100%;padding:.75rem 1rem;font-size:1rem;border:2px solid #e5e7eb;border-radius:8px;outline:none"
+      autofocus
+    />
+  </div>
+
+  <div id="search-results" style="margin-top:1rem"></div>
+
+  <script define:vars={{ searchIndex }}>
+    const input = document.getElementById("search-input");
+    const results = document.getElementById("search-results");
+
+    const typeLabels = { partido: "Partido", equipo: "Equipo", pagina: "Página" };
+
+    function render(items) {
+      if (!items.length) {
+        results.innerHTML = "<p>No se encontraron resultados.</p>";
+        return;
+      }
+      results.innerHTML = items.slice(0, 20).map(item => `
+        <div style="border:1px solid #e5e7eb;border-radius:8px;padding:.75rem 1rem;margin-bottom:.5rem">
+          <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem">
+            <span style="font-size:.7rem;background:#e0f2fe;color:#0369a1;border-radius:999px;padding:.1rem .45rem">${typeLabels[item.type] ?? item.type}</span>
+            <a href="${item.url}" style="font-weight:700;font-size:1rem">${item.title}</a>
+          </div>
+          <div style="font-size:.85rem;color:#555">${item.meta}</div>
+        </div>
+      `).join("");
+    }
+
+    input.addEventListener("input", () => {
+      const q = input.value.trim().toLowerCase();
+      if (q.length < 2) { results.innerHTML = ""; return; }
+      const filtered = searchIndex.filter(item =>
+        item.title.toLowerCase().includes(q) || item.meta.toLowerCase().includes(q)
+      );
+      render(filtered);
+    });
+
+    // Handle ?q= from URL
+    const params = new URLSearchParams(location.search);
+    const q = params.get("q");
+    if (q) { input.value = q; input.dispatchEvent(new Event("input")); }
+  </script>
+</BaseLayout>

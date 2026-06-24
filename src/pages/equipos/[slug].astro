@@ -1,0 +1,168 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import BroadcasterList from "@/components/BroadcasterList.astro";
+import { site } from "@/config/site";
+import { teams, getTeamBySlug, getTeamsByGroup } from "@/data/teams";
+import { fixtures, formatDateEs, multiTzBlock, localTime } from "@/utils/fixtures";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return teams.map((t) => ({
+    params: { slug: t.slug },
+    props: { team: t },
+  }));
+};
+
+const { team } = Astro.props;
+
+const teamFixtures = fixtures.filter(
+  (f) =>
+    f.teamA.toLowerCase().includes(team.name.toLowerCase()) ||
+    f.teamB.toLowerCase().includes(team.name.toLowerCase())
+);
+
+const groupTeams = getTeamsByGroup(team.group);
+const groupFixtures = fixtures.filter((f) => f.group === team.group);
+
+// Determine broadcaster based on team's country code
+const broadcasterCode = team.countryCode === "AR" ? "AR"
+  : team.countryCode === "MX" ? "MX"
+  : team.countryCode === "CO" ? "CO"
+  : team.countryCode === "BR" ? "BR"
+  : "FIFA";
+
+const faqs = [
+  {
+    q: `¿Dónde ver los partidos de ${team.name} en el Mundial 2026?`,
+    a: `Los partidos de ${team.name} en el Mundial 2026 se transmiten por los canales oficiales de cada país. Consultá la guía de tu país en este sitio para ver el canal oficial que transmite el Mundial 2026.`,
+  },
+  {
+    q: `¿En qué grupo está ${team.name} en el Mundial 2026?`,
+    a: `${team.name} integra el Grupo ${team.group} del Mundial 2026, junto a ${groupTeams.filter(t => t.name !== team.name).map(t => t.name).join(", ")}.`,
+  },
+  {
+    q: `¿Cuándo juega ${team.name} en el Mundial 2026?`,
+    a: teamFixtures.length > 0
+      ? `${team.name} tiene ${teamFixtures.length} partido(s) en el Mundial 2026: ${teamFixtures.map(f => `${f.teamA} vs ${f.teamB} (${formatDateEs(f.date).split(",")[0]})`).join(", ")}.`
+      : `Los partidos de ${team.name} se actualizan según avanza el torneo. Consultá el calendario completo.`,
+  },
+  {
+    q: `¿A qué hora juega ${team.name} hoy?`,
+    a: `Los horarios de los partidos de ${team.name} se muestran en esta página con la conversión para los principales países de América Latina. Revisá el calendario para el horario exacto.`,
+  },
+];
+
+const breadcrumbs = [
+  { name: "Inicio", item: site.url },
+  { name: "Equipos", item: `${site.url}/equipos` },
+  { name: team.name, item: `${site.url}/equipos/${team.slug}` },
+];
+---
+
+<BaseLayout
+  title={`${team.flag} ${team.name} — Mundial 2026: Partidos, Grupo y Dónde Ver`}
+  description={`Toda la información de ${team.name} en el Mundial 2026: fixture completo, Grupo ${team.group}, horarios por país y canales oficiales de transmisión.`}
+  canonical={`${site.url}/equipos/${team.slug}`}
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+>
+  <h1>{team.flag} {team.name} — Mundial 2026</h1>
+  <p>
+    <strong>{team.name}</strong> integra el <a href={`/grupo-${team.group.toLowerCase()}`}>Grupo {team.group}</a> del Mundial 2026.
+    Conocé el fixture completo, los horarios por país y los canales oficiales donde ver sus partidos.
+  </p>
+
+  <p>
+    <a href={team.fifaUrl} target="_blank" rel="noopener" class="tag">
+      Ver perfil oficial FIFA →
+    </a>
+  </p>
+
+  <h2>Partidos de {team.name} — Mundial 2026</h2>
+  {teamFixtures.length === 0 ? (
+    <p>Los partidos de {team.name} se actualizan a medida que avanza el torneo.</p>
+  ) : (
+    <table>
+      <thead>
+        <tr>
+          <th>Partido</th>
+          <th>Fase</th>
+          <th>Fecha</th>
+          <th>ARG/URU</th>
+          <th>COL/PER</th>
+          <th>CDMX</th>
+          <th>Sede</th>
+        </tr>
+      </thead>
+      <tbody>
+        {teamFixtures.map((f) => (
+          <tr>
+            <td><a href={`/${f.slug}`}>{f.teamA} vs {f.teamB}</a></td>
+            <td>{f.group ? `Grupo ${f.group}` : (f.stage ?? "—")}</td>
+            <td style="white-space:nowrap;font-size:.85rem">
+              {new Date(f.date).toLocaleDateString("es-AR", { day: "numeric", month: "short", timeZone: "UTC" })}
+            </td>
+            <td>{localTime(f.date, -3)}</td>
+            <td>{localTime(f.date, -5)}</td>
+            <td>{localTime(f.date, -6)}</td>
+            <td style="font-size:.8rem;color:#555">{f.city}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )}
+
+  <h2>Grupo {team.group} — {team.name} y sus rivales</h2>
+  <table>
+    <thead>
+      <tr><th>Equipo</th><th>Ver página</th></tr>
+    </thead>
+    <tbody>
+      {groupTeams.map((t) => (
+        <tr>
+          <td>{t.flag} <strong>{t.name === team.name ? `${t.name} (este equipo)` : t.name}</strong></td>
+          <td><a href={`/equipos/${t.slug}`}>{t.name} →</a></td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <h2>Todos los Partidos del Grupo {team.group}</h2>
+  <table>
+    <thead>
+      <tr><th>Partido</th><th>Fecha</th><th>ARG/URU</th><th>CDMX</th><th>Sede</th></tr>
+    </thead>
+    <tbody>
+      {groupFixtures.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).map((f) => (
+        <tr>
+          <td><a href={`/${f.slug}`}>{f.teamA} vs {f.teamB}</a></td>
+          <td style="font-size:.85rem">
+            {new Date(f.date).toLocaleDateString("es-AR", { day: "numeric", month: "short", timeZone: "UTC" })}
+          </td>
+          <td>{localTime(f.date, -3)}</td>
+          <td>{localTime(f.date, -6)}</td>
+          <td style="font-size:.8rem;color:#555">{f.city}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <h2>Dónde Ver los Partidos de {team.name}</h2>
+  <BroadcasterList countryCode="AR" countryName="Argentina" />
+  <BroadcasterList countryCode="CO" countryName="Colombia" />
+  <BroadcasterList countryCode="MX" countryName="México" />
+
+  <h2>Preguntas Frecuentes — {team.name} Mundial 2026</h2>
+  {faqs.map(({ q, a }) => (
+    <div style="margin-bottom:1rem">
+      <h3>{q}</h3>
+      <p>{a}</p>
+    </div>
+  ))}
+
+  <p style="margin-top:1.5rem">
+    ← <a href={`/grupo-${team.group.toLowerCase()}`}>Grupo {team.group}</a> ·
+    <a href="/calendario">Calendario completo</a> ·
+    <a href={team.fifaUrl} target="_blank" rel="noopener">FIFA oficial</a>
+  </p>
+</BaseLayout>

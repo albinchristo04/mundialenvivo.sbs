@@ -1,0 +1,123 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/config/site";
+import { upcomingFixtures, multiTzBlock, formatDateEs } from "@/utils/fixtures";
+
+const next = upcomingFixtures(8);
+
+const faqs = [
+  {
+    q: "¿Dónde puedo ver el Mundial 2026 en vivo?",
+    a: "Podés ver el Mundial 2026 en vivo a través de los canales oficiales por país: en Argentina (Telefé, TyC Sports), Colombia (Caracol TV, RCN), México (Canal 5, TV Azteca, TUDN), Perú (América TV, Latina) y más. Consultá la guía de tu país en este sitio.",
+  },
+  {
+    q: "¿A qué hora juega Argentina en el Mundial 2026?",
+    a: "Argentina integra el Grupo J y juega el 16 de junio vs Argelia (Kansas City), el 22 de junio vs Austria (Dallas) y el 27 de junio vs Jordania (Dallas). Los horarios en Argentina son las 22:00, 14:00 y 22:00 hs respectivamente.",
+  },
+  {
+    q: "¿Cuándo empieza el Mundial 2026?",
+    a: "El Mundial 2026 comienza el 11 de junio de 2026 con el partido inaugural México vs Sudáfrica en el Estadio Azteca de Ciudad de México. La Final se jugará el 19 de julio de 2026 en el MetLife Stadium de Nueva York.",
+  },
+  {
+    q: "¿Cuántos equipos juegan el Mundial 2026?",
+    a: "El Mundial 2026 cuenta con 48 selecciones divididas en 12 grupos de 4 equipos, con un total de 104 partidos en Estados Unidos, México y Canadá.",
+  },
+  {
+    q: "¿Dónde se juega el Mundial 2026?",
+    a: "El Mundial 2026 se juega en 16 estadios de 3 países: 11 en Estados Unidos, 3 en México y 2 en Canadá. Las sedes incluyen el Estadio Azteca (Ciudad de México), MetLife Stadium (Nueva York), AT&T Stadium (Dallas), SoFi Stadium (Los Ángeles) y más.",
+  },
+];
+
+const breadcrumbs = [{ name: "Inicio", item: site.url }];
+
+const countries = [
+  { country: "🇦🇷 Argentina",          slug: "/argentina" },
+  { country: "🇨🇴 Colombia",           slug: "/colombia"  },
+  { country: "🇺🇾 Uruguay",            slug: "/uruguay"   },
+  { country: "🇪🇨 Ecuador",            slug: "/ecuador"   },
+  { country: "🇨🇱 Chile",              slug: "/chile"     },
+  { country: "🇵🇪 Perú",               slug: "/peru"      },
+  { country: "🇻🇪 Venezuela",          slug: "/venezuela" },
+  { country: "🇲🇽 México",             slug: "/mexico"    },
+  { country: "🇬🇹 Guatemala",          slug: "/guatemala" },
+  { country: "🇧🇴 Bolivia",            slug: "/bolivia"   },
+  { country: "🇸🇻 El Salvador",        slug: "/el-salvador" },
+  { country: "🇨🇷 Costa Rica",         slug: "/costa-rica" },
+  { country: "🇵🇦 Panamá",             slug: "/panama"    },
+  { country: "🇭🇳 Honduras",           slug: "/honduras"  },
+  { country: "🇳🇮 Nicaragua",          slug: "/nicaragua" },
+  { country: "🇩🇴 Rep. Dominicana",    slug: "/republica-dominicana" },
+];
+---
+
+<BaseLayout
+  title="Mundial en Vivo 2026 — Dónde Ver el Mundial 2026 por País | Canales Oficiales"
+  description="Ver el mundial en vivo 2026: guía de canales oficiales por país, horarios de partidos, standings y toda la información del Mundial 2026 en Estados Unidos, México y Canadá."
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+>
+  <h1>Mundial en Vivo 2026 — Dónde Ver Todos los Partidos</h1>
+  <p>
+    Bienvenido a <strong>Mundial en Vivo</strong>, tu guía completa para ver el <strong>Mundial 2026 en vivo</strong>.
+    Encontrás los <strong>canales oficiales por país</strong>, horarios de partidos, tabla de posiciones, cuadro del torneo y más.
+    El Mundial 2026 se juega del 11 de junio al 19 de julio en Estados Unidos, México y Canadá.
+  </p>
+
+  <a href="/calendario" class="cta">Ver Calendario Completo — Mundial 2026 →</a>
+
+  <h2>Próximos Partidos — Mundial 2026 en Vivo</h2>
+  {next.length === 0 ? (
+    <p>Los horarios se actualizan cada mañana de partido. Consultá el <a href="/calendario">calendario completo</a>.</p>
+  ) : (
+    next.map((f) => (
+      <div class="match-card">
+        <div class="teams"><a href={`/${f.slug}`}>{f.teamA} vs {f.teamB}</a></div>
+        <div class="meta">{formatDateEs(f.date)} · {f.venue}, {f.city}</div>
+        <div class="tz-block">{multiTzBlock(f.date)}</div>
+        <a href={`/${f.slug}`} style="font-size:.9rem">¿Dónde ver? Canales oficiales →</a>
+      </div>
+    ))
+  )}
+
+  <h2>¿Dónde Ver el Mundial 2026 por País?</h2>
+  <p>Seleccioná tu país para ver los canales oficiales y horarios locales:</p>
+  <table>
+    <thead>
+      <tr><th>País</th><th>Guía de canales</th></tr>
+    </thead>
+    <tbody>
+      {countries.map(({ country, slug }) => (
+        <tr>
+          <td>{country}</td>
+          <td><a href={slug}>Ver canales oficiales →</a></td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <h2>Mundial 2026 — Información General</h2>
+  <table>
+    <tbody>
+      <tr><td><strong>Inicio</strong></td><td>11 de junio de 2026 — México vs Sudáfrica (Estadio Azteca)</td></tr>
+      <tr><td><strong>Final</strong></td><td>19 de julio de 2026 — MetLife Stadium, Nueva York</td></tr>
+      <tr><td><strong>Equipos</strong></td><td>48 selecciones en 12 grupos</td></tr>
+      <tr><td><strong>Partidos</strong></td><td>104 partidos en total</td></tr>
+      <tr><td><strong>Sedes</strong></td><td>16 estadios en EE.UU., México y Canadá</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Preguntas Frecuentes — Mundial 2026 en Vivo</h2>
+  {faqs.map(({ q, a }) => (
+    <div style="margin-bottom:1rem">
+      <h3>{q}</h3>
+      <p>{a}</p>
+    </div>
+  ))}
+
+  <p style="margin-top:1.5rem">
+    <a href="/tabla-posiciones">Tabla de posiciones</a> ·
+    <a href="/cuadro-mundial-2026">Cuadro del torneo</a> ·
+    <a href="/noticias">Noticias</a> ·
+    <a href={site.fifaUrl} target="_blank" rel="noopener">FIFA oficial</a>
+  </p>
+</BaseLayout>

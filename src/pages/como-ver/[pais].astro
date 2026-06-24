@@ -1,0 +1,154 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import BroadcasterList from "@/components/BroadcasterList.astro";
+import { site } from "@/config/site";
+import { fixtures, localTime, formatDateEs } from "@/utils/fixtures";
+import { getBroadcastersForCountry } from "@/utils/fixtures";
+import type { GetStaticPaths } from "astro";
+
+type CountryEntry = { name: string; code: string; flag: string; tzLabel: string; tzOffset: number; teamName: string };
+
+export const getStaticPaths: GetStaticPaths = () => {
+  const entries: [string, CountryEntry][] = [
+    ["peru",                { name: "Perú", code: "PE", flag: "🇵🇪", tzLabel: "PET (UTC-5)", tzOffset: -5, teamName: "Perú" }],
+    ["mexico",              { name: "México", code: "MX", flag: "🇲🇽", tzLabel: "CST (UTC-6)", tzOffset: -6, teamName: "México" }],
+    ["guatemala",           { name: "Guatemala", code: "GT", flag: "🇬🇹", tzLabel: "CST (UTC-6)", tzOffset: -6, teamName: "Guatemala" }],
+    ["colombia",            { name: "Colombia", code: "CO", flag: "🇨🇴", tzLabel: "COT (UTC-5)", tzOffset: -5, teamName: "Colombia" }],
+    ["argentina",           { name: "Argentina", code: "AR", flag: "🇦🇷", tzLabel: "ART (UTC-3)", tzOffset: -3, teamName: "Argentina" }],
+    ["chile",               { name: "Chile", code: "CL", flag: "🇨🇱", tzLabel: "CLT (UTC-4)", tzOffset: -4, teamName: "Chile" }],
+    ["ecuador",             { name: "Ecuador", code: "EC", flag: "🇪🇨", tzLabel: "ECT (UTC-5)", tzOffset: -5, teamName: "Ecuador" }],
+    ["venezuela",           { name: "Venezuela", code: "VE", flag: "🇻🇪", tzLabel: "VET (UTC-4)", tzOffset: -4, teamName: "Venezuela" }],
+    ["costa-rica",          { name: "Costa Rica", code: "CR", flag: "🇨🇷", tzLabel: "CST (UTC-6)", tzOffset: -6, teamName: "Costa Rica" }],
+    ["panama",              { name: "Panamá", code: "PA", flag: "🇵🇦", tzLabel: "EST (UTC-5)", tzOffset: -5, teamName: "Panamá" }],
+    ["bolivia",             { name: "Bolivia", code: "BO", flag: "🇧🇴", tzLabel: "BOT (UTC-4)", tzOffset: -4, teamName: "Bolivia" }],
+    ["el-salvador",         { name: "El Salvador", code: "SV", flag: "🇸🇻", tzLabel: "CST (UTC-6)", tzOffset: -6, teamName: "El Salvador" }],
+    ["honduras",            { name: "Honduras", code: "HN", flag: "🇭🇳", tzLabel: "CST (UTC-6)", tzOffset: -6, teamName: "Honduras" }],
+    ["nicaragua",           { name: "Nicaragua", code: "NI", flag: "🇳🇮", tzLabel: "CST (UTC-6)", tzOffset: -6, teamName: "Nicaragua" }],
+    ["republica-dominicana",{ name: "República Dominicana", code: "DO", flag: "🇩🇴", tzLabel: "AST (UTC-4)", tzOffset: -4, teamName: "República Dominicana" }],
+    ["uruguay",             { name: "Uruguay", code: "UY", flag: "🇺🇾", tzLabel: "UYT (UTC-3)", tzOffset: -3, teamName: "Uruguay" }],
+  ];
+  return entries.map(([pais, data]) => ({
+    params: { pais },
+    props: { countryKey: pais, countryData: data },
+  }));
+};
+
+const { countryKey, countryData: country } = Astro.props as { countryKey: string; countryData: CountryEntry };
+
+const teamMatches = fixtures
+  .filter((f) =>
+    f.teamA.toLowerCase().includes(country.teamName.toLowerCase()) ||
+    f.teamB.toLowerCase().includes(country.teamName.toLowerCase())
+  )
+  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+const upcomingMatches = fixtures
+  .filter((f) => f.group !== null)
+  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+  .slice(0, 12);
+
+const broadcasters = getBroadcastersForCountry(country.code);
+
+const breadcrumbs = [
+  { name: "Inicio", item: site.url },
+  { name: `Ver Mundial en ${country.name}`, item: `${site.url}/como-ver/${countryKey}` },
+];
+
+const faqs = [
+  {
+    q: `¿Cómo ver el Mundial 2026 en ${country.name}?`,
+    a: `Para ver el Mundial 2026 en ${country.name}, sintonizá ${broadcasters.slice(0, 2).map(b => b.name).join(" o ")}${broadcasters.length > 2 ? ` entre otros canales oficiales` : ""}. También podés acceder a la información oficial de transmisiones en FIFA.com.`,
+  },
+  {
+    q: `¿Qué canal transmite el Mundial 2026 en ${country.name}?`,
+    a: `Los canales oficiales que transmiten el Mundial 2026 en ${country.name} son: ${broadcasters.map(b => b.name).join(", ")}. Verificá la disponibilidad en cada canal.`,
+  },
+  {
+    q: `¿A qué hora son los partidos del Mundial en ${country.name}?`,
+    a: `Los horarios del Mundial 2026 en ${country.name} (${country.tzLabel}) varían según la sede del partido. En esta página encontrás todos los horarios convertidos a tu zona horaria.`,
+  },
+];
+---
+
+<BaseLayout
+  title={`Cómo Ver el Mundial 2026 en ${country.name} ${country.flag} — Canales Oficiales`}
+  description={`Guía completa para ver el Mundial 2026 en ${country.name}: canales oficiales, horarios en ${country.tzLabel}, partidos y toda la información del torneo para ${country.name}.`}
+  canonical={`${site.url}/como-ver/${countryKey}`}
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+  promoBannerCountry={country.name}
+>
+  <h1>Cómo Ver el Mundial 2026 en {country.name} {country.flag}</h1>
+  <p>
+    Guía completa de canales oficiales, horarios en {country.tzLabel} y toda la información para seguir
+    el <strong>Mundial 2026 en {country.name}</strong>.
+  </p>
+
+  <h2>Canales Oficiales — Mundial 2026 en {country.name}</h2>
+  <BroadcasterList countryCode={country.code} countryName={country.name} />
+
+  {teamMatches.length > 0 && (
+    <>
+      <h2>Partidos de {country.teamName} en el Mundial 2026</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Partido</th>
+            <th>Fecha</th>
+            <th>Hora ({country.tzLabel})</th>
+            <th>Sede</th>
+          </tr>
+        </thead>
+        <tbody>
+          {teamMatches.map((m) => (
+            <tr>
+              <td><a href={`/${m.slug}`}>{m.teamA} vs {m.teamB}</a></td>
+              <td style="font-size:.85rem;white-space:nowrap">
+                {new Date(m.date).toLocaleDateString("es-AR", { day: "numeric", month: "short", timeZone: "UTC" })}
+              </td>
+              <td>{localTime(m.date, country.tzOffset)} hs</td>
+              <td style="font-size:.85rem;color:#555">{m.city}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  )}
+
+  <h2>Próximos Partidos del Mundial — Horarios para {country.name}</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Partido</th>
+        <th>Fecha</th>
+        <th>Hora ({country.tzLabel})</th>
+      </tr>
+    </thead>
+    <tbody>
+      {upcomingMatches.map((m) => (
+        <tr>
+          <td><a href={`/${m.slug}`}>{m.teamA} vs {m.teamB}</a></td>
+          <td style="font-size:.85rem;white-space:nowrap">
+            {new Date(m.date).toLocaleDateString("es-AR", { day: "numeric", month: "short", timeZone: "UTC" })}
+          </td>
+          <td>{localTime(m.date, country.tzOffset)} hs</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <p style="font-size:.85rem"><a href="/calendario">Ver todos los partidos →</a></p>
+
+  <h2>Preguntas Frecuentes — Mundial 2026 en {country.name}</h2>
+  {faqs.map(({ q, a }) => (
+    <div style="margin-bottom:1rem">
+      <h3>{q}</h3>
+      <p>{a}</p>
+    </div>
+  ))}
+
+  <p style="margin-top:1.5rem">
+    ← <a href={`/${countryKey}`}>Guía completa de {country.name}</a> ·
+    <a href="/calendario">Calendario</a> ·
+    <a href={site.fifaWatchUrl} target="_blank" rel="noopener">FIFA oficial</a>
+  </p>
+</BaseLayout>

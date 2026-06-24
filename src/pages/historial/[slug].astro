@@ -1,0 +1,144 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/config/site";
+import { h2hRecords, getH2HBySlug } from "@/data/h2h";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return h2hRecords.map((h) => ({
+    params: { slug: h.slug },
+    props: { record: h },
+  }));
+};
+
+const { record: h } = Astro.props;
+
+const totalGoals = h.teamAGoals + h.teamBGoals;
+const teamAWinPct = h.totalMatches > 0 ? Math.round((h.teamAWins / h.totalMatches) * 100) : 0;
+const teamBWinPct = h.totalMatches > 0 ? Math.round((h.teamBWins / h.totalMatches) * 100) : 0;
+const drawPct = h.totalMatches > 0 ? Math.round((h.draws / h.totalMatches) * 100) : 0;
+
+const breadcrumbs = [
+  { name: "Inicio", item: site.url },
+  { name: "Historial", item: `${site.url}/historial` },
+  { name: `${h.teamA} vs ${h.teamB}`, item: `${site.url}/historial/${h.slug}` },
+];
+
+const faqs = [
+  {
+    q: `¿Cuántas veces se enfrentaron ${h.teamA} y ${h.teamB}?`,
+    a: `${h.teamA} y ${h.teamB} se han enfrentado ${h.totalMatches} veces en toda su historia. ${h.teamA} ganó ${h.teamAWins} partidos, ${h.teamB} ganó ${h.teamBWins} y hubo ${h.draws} empates.`,
+  },
+  {
+    q: `¿Se enfrentaron ${h.teamA} y ${h.teamB} en el Mundial?`,
+    a: h.worldCupMeetings.length > 0
+      ? `Sí, ${h.teamA} y ${h.teamB} se enfrentaron ${h.worldCupMeetings.length} vez/veces en el Mundial: ${h.worldCupMeetings.map(m => `${m.year} (${m.stage}): ${m.scoreA}-${m.scoreB}`).join("; ")}.`
+      : `No hay registros de enfrentamientos previos entre ${h.teamA} y ${h.teamB} en la Copa del Mundo.`,
+  },
+  {
+    q: `¿Quién lleva ventaja en el historial ${h.teamA} vs ${h.teamB}?`,
+    a: h.teamAWins > h.teamBWins
+      ? `${h.teamA} lleva ventaja en el historial con ${h.teamAWins} victorias frente a ${h.teamBWins} de ${h.teamB}.`
+      : h.teamBWins > h.teamAWins
+      ? `${h.teamB} lleva ventaja en el historial con ${h.teamBWins} victorias frente a ${h.teamAWins} de ${h.teamA}.`
+      : `El historial está igualado con ${h.teamAWins} victorias para cada equipo.`,
+  },
+];
+---
+
+<BaseLayout
+  title={`${h.teamA} vs ${h.teamB} — Historial Completo y Estadísticas | Mundial 2026`}
+  description={`Historial completo entre ${h.teamA} y ${h.teamB}: ${h.totalMatches} partidos, ${h.teamAWins} victorias de ${h.teamA}, ${h.teamBWins} victorias de ${h.teamB}, ${h.draws} empates. Encuentros en el Mundial.`}
+  canonical={`${site.url}/historial/${h.slug}`}
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+>
+  <h1>{h.teamAFlag} {h.teamA} vs {h.teamB} {h.teamBFlag} — Historial</h1>
+  <p>
+    Historial completo de los enfrentamientos entre <strong>{h.teamA}</strong> y <strong>{h.teamB}</strong>:
+    estadísticas, goles, victorias y sus encuentros en la Copa del Mundo FIFA.
+  </p>
+
+  <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:.5rem;background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:1.25rem;margin:1rem 0;text-align:center">
+    <div>
+      <div style="font-size:2rem;font-weight:800;color:#0057b7">{h.teamAWins}</div>
+      <div style="font-size:.875rem;color:#555">Victorias {h.teamA}</div>
+    </div>
+    <div>
+      <div style="font-size:2rem;font-weight:800">{h.draws}</div>
+      <div style="font-size:.875rem;color:#555">Empates</div>
+    </div>
+    <div>
+      <div style="font-size:2rem;font-weight:800;color:#cc0000">{h.teamBWins}</div>
+      <div style="font-size:.875rem;color:#555">Victorias {h.teamB}</div>
+    </div>
+  </div>
+
+  <h2>Estadísticas Generales</h2>
+  <table>
+    <tbody>
+      <tr><td><strong>Partidos jugados</strong></td><td>{h.totalMatches}</td></tr>
+      <tr><td><strong>Victorias {h.teamA}</strong></td><td>{h.teamAWins} ({teamAWinPct}%)</td></tr>
+      <tr><td><strong>Empates</strong></td><td>{h.draws} ({drawPct}%)</td></tr>
+      <tr><td><strong>Victorias {h.teamB}</strong></td><td>{h.teamBWins} ({teamBWinPct}%)</td></tr>
+      <tr><td><strong>Goles {h.teamA}</strong></td><td>{h.teamAGoals}</td></tr>
+      <tr><td><strong>Goles {h.teamB}</strong></td><td>{h.teamBGoals}</td></tr>
+      <tr><td><strong>Total de goles</strong></td><td>{totalGoals}</td></tr>
+      <tr><td><strong>Promedio goles/partido</strong></td><td>{h.totalMatches > 0 ? (totalGoals / h.totalMatches).toFixed(1) : "—"}</td></tr>
+    </tbody>
+  </table>
+
+  {h.worldCupMeetings.length > 0 && (
+    <>
+      <h2>Enfrentamientos en el Mundial FIFA</h2>
+      <table>
+        <thead>
+          <tr><th>Año</th><th>Fase</th><th>Resultado</th></tr>
+        </thead>
+        <tbody>
+          {h.worldCupMeetings.map((m) => (
+            <tr>
+              <td><strong>Mundial {m.year}</strong></td>
+              <td>{m.stage}</td>
+              <td><strong>{h.teamA} {m.scoreA} – {m.scoreB} {h.teamB}</strong></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  )}
+
+  {h.recentMatches.length > 0 && (
+    <>
+      <h2>Encuentros Recientes</h2>
+      <table>
+        <thead>
+          <tr><th>Fecha</th><th>Competencia</th><th>Resultado</th></tr>
+        </thead>
+        <tbody>
+          {h.recentMatches.map((m) => (
+            <tr>
+              <td style="white-space:nowrap;font-size:.875rem">{m.date}</td>
+              <td style="font-size:.875rem">{m.competition}</td>
+              <td><strong>{h.teamA} {m.scoreA} – {m.scoreB} {h.teamB}</strong></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  )}
+
+  <h2>Preguntas Frecuentes — {h.teamA} vs {h.teamB}</h2>
+  {faqs.map(({ q, a }) => (
+    <div style="margin-bottom:1rem">
+      <h3>{q}</h3>
+      <p>{a}</p>
+    </div>
+  ))}
+
+  <p style="margin-top:1.5rem">
+    ← <a href="/calendario">Calendario Mundial 2026</a> ·
+    <a href={`/equipos/${h.teamASlug}`}>{h.teamA}</a> ·
+    <a href={`/equipos/${h.teamBSlug}`}>{h.teamB}</a>
+  </p>
+</BaseLayout>

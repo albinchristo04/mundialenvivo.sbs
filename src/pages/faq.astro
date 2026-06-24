@@ -1,0 +1,79 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/config/site";
+
+const faqs = [
+  {
+    q: "¿Dónde puedo ver el Mundial 2026 en vivo?",
+    a: "Podés ver el Mundial 2026 en vivo a través de los canales oficiales de cada país. En Argentina: Telefé, TyC Sports y TV Pública. En Colombia: Caracol TV y RCN. En México: Canal 5 (Televisa), TV Azteca y TUDN. En Perú: América TV y Latina. Consultá la guía de tu país en este sitio.",
+  },
+  {
+    q: "¿A qué hora juega Argentina en el Mundial 2026?",
+    a: "Argentina está en el Grupo J. Sus partidos son: vs Argelia (16 de junio, 22:00 hs ARG), vs Austria (22 de junio, 14:00 hs ARG), vs Jordania (27 de junio, 22:00 hs ARG). Consultá la guía de Argentina para más detalles.",
+  },
+  {
+    q: "¿Qué canal transmite el Mundial 2026 en Argentina?",
+    a: "El Mundial 2026 se transmite en Argentina por Telefé (TV abierta), TV Pública (TV abierta), TyC Sports (cable) y Disney+ / Star+ (streaming). Para información actualizada, visitá la página oficial de FIFA.",
+  },
+  {
+    q: "¿Qué canal pasa el Mundial 2026 en Colombia?",
+    a: "En Colombia el Mundial 2026 se transmite por Caracol TV y RCN (TV abierta) y Win Sports (cable). Consultá la guía de Colombia en este sitio.",
+  },
+  {
+    q: "¿Dónde ver el Mundial 2026 en México?",
+    a: "En México podés ver el Mundial 2026 por Canal 5 (Televisa), TV Azteca (TV abierta), TUDN (cable) y ViX (streaming). México juega el partido inaugural el 11 de junio ante Sudáfrica en el Estadio Azteca.",
+  },
+  {
+    q: "¿Dónde ver el Mundial 2026 en Perú?",
+    a: "En Perú el Mundial 2026 se transmite por América TV, Latina (TV abierta) y Movistar Deportes (cable). Consultá la guía de Perú para ver los horarios en hora peruana (UTC-5).",
+  },
+  {
+    q: "¿Cuándo empieza y cuándo termina el Mundial 2026?",
+    a: "El Mundial 2026 comienza el 11 de junio de 2026 con el partido inaugural México vs Sudáfrica en el Estadio Azteca y finaliza con la gran Final el 19 de julio de 2026 en el MetLife Stadium de Nueva York.",
+  },
+  {
+    q: "¿Dónde se juega el Mundial 2026?",
+    a: "El Mundial 2026 se disputa en 16 estadios de 3 países: 11 en Estados Unidos (MetLife Stadium, AT&T Stadium, SoFi Stadium, NRG Stadium, Hard Rock Stadium, Gillette Stadium, Lincoln Financial Field, Arrowhead Stadium, Levi's Stadium, Mercedes-Benz Stadium, Lumen Field), 3 en México (Estadio Azteca, Estadio Akron, Estadio BBVA) y 2 en Canadá (BMO Field, BC Place).",
+  },
+  {
+    q: "¿Cuántos equipos participan en el Mundial 2026?",
+    a: "El Mundial 2026 cuenta con 48 selecciones divididas en 12 grupos de 4 equipos. De cada grupo avanzan los 3 primeros más los 8 mejores terceros, completando los 32 clasificados para los dieciseisavos de final.",
+  },
+  {
+    q: "¿Cómo ver el Mundial 2026 desde el celular?",
+    a: "Para ver el Mundial 2026 desde tu celular, consultá la app o sitio web del canal oficial de tu país: Telefé Play (Argentina), Caracol Play (Colombia), ViX (México), América TV App (Perú), etc. También podés acceder vía FIFA+ para información oficial.",
+  },
+  {
+    q: "¿Cuándo son los partidos de Argentina en el Mundial 2026?",
+    a: "Argentina tiene tres partidos en la fase de grupos: el 16 de junio vs Argelia en Kansas City, el 22 de junio vs Austria en Dallas y el 27 de junio vs Jordania en Dallas. Ver el fixture completo en la página de Argentina.",
+  },
+];
+
+const breadcrumbs = [
+  { name: "Inicio", item: site.url },
+  { name: "Preguntas frecuentes", item: `${site.url}/faq` },
+];
+---
+
+<BaseLayout
+  title="FAQ: Dónde Ver el Mundial 2026 — Preguntas Frecuentes sobre Canales y Horarios"
+  description="Preguntas frecuentes sobre dónde ver el Mundial 2026 en vivo: canales oficiales por país (Argentina, Colombia, México, Perú), horarios y toda la información del torneo."
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+>
+  <h1>Preguntas Frecuentes — Dónde Ver el Mundial 2026</h1>
+  <p>Todo lo que necesitás saber sobre <strong>cómo y dónde ver el Mundial 2026</strong> en los canales oficiales de cada país.</p>
+
+  {faqs.map(({ q, a }) => (
+    <div style="margin-bottom:1.25rem">
+      <h2 style="font-size:1.05rem">{q}</h2>
+      <p>{a}</p>
+    </div>
+  ))}
+
+  <p style="margin-top:1.5rem">
+    ← <a href="/">Volver al inicio</a> ·
+    <a href="/calendario">Ver calendario de partidos</a> ·
+    <a href={site.fifaUrl} target="_blank" rel="noopener">FIFA oficial</a>
+  </p>
+</BaseLayout>

@@ -1,0 +1,97 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/config/site";
+import { newsArticles, getArticleBySlug } from "@/data/news";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return newsArticles.map((a) => ({
+    params: { slug: a.slug },
+    props: { article: a },
+  }));
+};
+
+const { article } = Astro.props;
+
+const related = newsArticles
+  .filter((a) =>
+    a.slug !== article.slug &&
+    (a.category === article.category || a.teams.some((t) => article.teams.includes(t)))
+  )
+  .slice(0, 3);
+
+const d = new Date(article.date);
+const dateStr = d.toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+
+const breadcrumbs = [
+  { name: "Inicio", item: site.url },
+  { name: "Noticias", item: `${site.url}/noticias` },
+  { name: article.title.length > 50 ? article.title.slice(0, 47) + "…" : article.title, item: `${site.url}/noticias/${article.slug}` },
+];
+---
+
+<BaseLayout
+  title={`${article.title} | Noticias Mundial 2026`}
+  description={article.excerpt}
+  canonical={`${site.url}/noticias/${article.slug}`}
+  breadcrumbs={breadcrumbs}
+  article={article}
+>
+  <article>
+    <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.75rem">
+      <span style="font-size:.75rem;background:#f3f4f6;border-radius:4px;padding:.15rem .5rem;color:#555">
+        {article.category}
+      </span>
+      <time style="font-size:.8rem;color:#888" datetime={article.date}>{dateStr}</time>
+      {article.author && (
+        <span style="font-size:.8rem;color:#888">· Por {article.author}</span>
+      )}
+    </div>
+
+    <h1 style="margin-top:0">{article.title}</h1>
+    <p style="font-size:1.05rem;color:#444;font-weight:500;border-left:3px solid #15803d;padding-left:.75rem;margin:1rem 0">
+      {article.excerpt}
+    </p>
+
+    <div set:html={article.content.replace(/\n\n/g, "</p><p>").replace(/^/, "<p>").replace(/$/, "</p>")} />
+
+    {article.teams.length > 0 && (
+      <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid #e5e7eb">
+        <strong style="font-size:.85rem">Equipos relacionados:</strong>
+        <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.4rem">
+          {article.teams.map((t) => {
+            const teamSlug = t.toLowerCase()
+              .normalize("NFD").replace(/[̀-ͯ]/g, "")
+              .replace(/\s+/g, "-");
+            return (
+              <a href={`/equipos/${teamSlug}`}
+                 style="font-size:.85rem;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;padding:.2rem .6rem;border-radius:4px;text-decoration:none">
+                {t}
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    )}
+  </article>
+
+  {related.length > 0 && (
+    <section style="margin-top:2rem">
+      <h2 style="font-size:1.1rem">Noticias Relacionadas</h2>
+      <div style="display:grid;gap:.75rem">
+        {related.map((r) => (
+          <a href={`/noticias/${r.slug}`} style="display:block;border:1px solid #e5e7eb;border-radius:6px;padding:.75rem;text-decoration:none;color:inherit">
+            <div style="font-size:.75rem;color:#555;margin-bottom:.3rem">{r.category}</div>
+            <div style="font-weight:600;font-size:.95rem">{r.title}</div>
+            <div style="font-size:.85rem;color:#555;margin-top:.25rem">{r.excerpt.slice(0, 100)}…</div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <p style="margin-top:1.5rem">
+    ← <a href="/noticias">Todas las noticias</a> ·
+    <a href="/calendario">Calendario</a>
+  </p>
+</BaseLayout>

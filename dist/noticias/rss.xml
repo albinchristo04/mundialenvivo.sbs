@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mundial en Vivo — Noticias</title>
+    <link>https://mundialenvivo.sbs/noticias</link>
+    <description>Noticias del Mundial 2026 para América Latina</description>
+    <language>es</language>
+    <atom:link href="https://mundialenvivo.sbs/noticias/rss.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Wed, 24 Jun 2026 16:22:58 GMT</lastBuildDate>
+    <item>
+      <title><![CDATA[Colombia en el Grupo K del Mundial 2026: partidos, horarios y canales oficiales]]></title>
+      <link>https://mundialenvivo.sbs/noticias/colombia-grupo-k-mundial-2026-onde-ver</link>
+      <guid>https://mundialenvivo.sbs/noticias/colombia-grupo-k-mundial-2026-onde-ver</guid>
+      <pubDate>Fri, 12 Jun 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[La Tricolor cayó en el Grupo K junto a Portugal, RD Congo y Uzbekistán. Aquí todos los detalles y dónde ver en Colombia.]]></description>
+      <category>previas</category>
+    </item>
+    <item>
+      <title><![CDATA[México juega el partido inaugural del Mundial 2026 ante Sudáfrica en el Azteca]]></title>
+      <link>https://mundialenvivo.sbs/noticias/mexico-partido-inaugural-mundial-2026</link>
+      <guid>https://mundialenvivo.sbs/noticias/mexico-partido-inaugural-mundial-2026</guid>
+      <pubDate>Wed, 10 Jun 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[El Estadio Azteca será el escenario del partido de apertura del Mundial 2026 el 11 de junio, cuando México enfrente a Sudáfrica.]]></description>
+      <category>previas</category>
+    </item>
+    <item>
+      <title><![CDATA[España, una de las grandes favoritas al título del Mundial 2026]]></title>
+      <link>https://mundialenvivo.sbs/noticias/espana-favorita-mundial-2026</link>
+      <guid>https://mundialenvivo.sbs/noticias/espana-favorita-mundial-2026</guid>
+      <pubDate>Mon, 08 Jun 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[La Roja llega al Mundial 2026 como una de las potencias favoritas tras su dominio en la Eurocopa 2024.]]></description>
+      <category>previas</category>
+    </item>
+    <item>
+      <title><![CDATA[Guía de horarios del Mundial 2026 para Argentina, Colombia, México y más]]></title>
+      <link>https://mundialenvivo.sbs/noticias/guia-horarios-mundial-2026-latam</link>
+      <guid>https://mundialenvivo.sbs/noticias/guia-horarios-mundial-2026-latam</guid>
+      <pubDate>Fri, 05 Jun 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[Todos los partidos del Mundial 2026 con sus horarios convertidos para los principales países de América Latina.]]></description>
+      <category>torneo</category>
+    </item>
+    <item>
+      <title><![CDATA[La Final del Mundial 2026 se jugará en el MetLife Stadium de Nueva York]]></title>
+      <link>https://mundialenvivo.sbs/noticias/final-mundial-2026-metlife-nueva-york</link>
+      <guid>https://mundialenvivo.sbs/noticias/final-mundial-2026-metlife-nueva-york</guid>
+      <pubDate>Wed, 03 Jun 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[El 19 de julio de 2026, el MetLife Stadium en East Rutherford, Nueva Jersey, será el escenario de la gran final del Mundial.]]></description>
+      <category>torneo</category>
+    </item>
+    <item>
+      <title><![CDATA[El Estadio Azteca, el único con dos finales mundialistas, vuelve al Mundial]]></title>
+      <link>https://mundialenvivo.sbs/noticias/estadio-azteca-partido-inaugural-historia</link>
+      <guid>https://mundialenvivo.sbs/noticias/estadio-azteca-partido-inaugural-historia</guid>
+      <pubDate>Mon, 01 Jun 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[El mítico coloso de Santa Úrsula albergará el partido inaugural del Mundial 2026 y volverá a ser escenario de la historia del fútbol.]]></description>
+      <category>torneo</category>
+    </item>
+    <item>
+      <title><![CDATA[Argentina presenta su convocatoria para el Mundial 2026]]></title>
+      <link>https://mundialenvivo.sbs/noticias/argentina-convocatoria-mundial-2026</link>
+      <guid>https://mundialenvivo.sbs/noticias/argentina-convocatoria-mundial-2026</guid>
+      <pubDate>Wed, 20 May 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[La Selección Argentina confirmó sus 26 jugadores para el Mundial 2026 que se disputará en Estados Unidos, México y Canadá.]]></description>
+      <category>convocatorias</category>
+    </item>
+    <item>
+      <title><![CDATA[Brasil en el Grupo C del Mundial 2026: rivales, horarios y dónde ver]]></title>
+      <link>https://mundialenvivo.sbs/noticias/brasil-grupos-mundial-2026</link>
+      <guid>https://mundialenvivo.sbs/noticias/brasil-grupos-mundial-2026</guid>
+      <pubDate>Wed, 15 Apr 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[La Canarinha cayó en el Grupo C del Mundial 2026 junto a Marruecos, Haití y Escocia. Conocé todo sobre el grupo brasileño.]]></description>
+      <category>torneo</category>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,121 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/config/site";
+import { teams } from "@/data/teams";
+import { fixtures, localTime } from "@/utils/fixtures";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  const groups = ["A","B","C","D","E","F","G","H","I","J","K","L"];
+  return groups.map((g) => ({
+    params: { letra: g.toLowerCase() },
+    props: { group: g },
+  }));
+};
+
+const { group } = Astro.props;
+const letra = (group as string).toUpperCase();
+
+const thisGroupTeams = teams.filter((t) => t.group === letra);
+const groupMatches = fixtures
+  .filter((f) => f.group === letra)
+  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+const breadcrumbs = [
+  { name: "Inicio", item: site.url },
+  { name: "Tabla de Posiciones", item: `${site.url}/tabla-posiciones` },
+  { name: `Grupo ${letra}`, item: `${site.url}/grupo-${letra.toLowerCase()}` },
+];
+
+const faqs = [
+  {
+    q: `¿Quiénes están en el Grupo ${letra} del Mundial 2026?`,
+    a: `El Grupo ${letra} del Mundial 2026 está integrado por: ${thisGroupTeams.map(t => t.name).join(", ")}.`,
+  },
+  {
+    q: `¿Cuántos equipos avanzan del Grupo ${letra}?`,
+    a: `Del Grupo ${letra} avanzan los 3 primeros clasificados a los dieciseisavos de final del Mundial 2026. El cuarto equipo queda eliminado.`,
+  },
+];
+---
+
+<BaseLayout
+  title={`Grupo ${letra} — Mundial 2026: Equipos, Partidos y Posiciones`}
+  description={`Toda la información del Grupo ${letra} del Mundial 2026: equipos clasificados, partidos, horarios por país y tabla de posiciones.`}
+  canonical={`${site.url}/grupo-${letra.toLowerCase()}`}
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+>
+  <h1>Grupo {letra} — Mundial 2026</h1>
+  <p>
+    El <strong>Grupo {letra} del Mundial 2026</strong> está integrado por {thisGroupTeams.length} selecciones.
+    Los 3 primeros clasifican a los dieciseisavos de final.
+  </p>
+
+  <h2>Equipos del Grupo {letra}</h2>
+  <table>
+    <thead>
+      <tr><th>Selección</th><th>FIFA</th><th>Página del equipo</th></tr>
+    </thead>
+    <tbody>
+      {thisGroupTeams.map((t) => (
+        <tr>
+          <td>{t.flag} <strong>{t.name}</strong></td>
+          <td><a href={t.fifaUrl} target="_blank" rel="noopener" style="font-size:.85rem">FIFA →</a></td>
+          <td><a href={`/equipos/${t.slug}`}>Ver equipo →</a></td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <h2>Partidos del Grupo {letra}</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Partido</th>
+        <th>Fecha</th>
+        <th>ARG/URU</th>
+        <th>COL/PER/ECU</th>
+        <th>CDMX</th>
+        <th>Sede</th>
+      </tr>
+    </thead>
+    <tbody>
+      {groupMatches.map((m) => {
+        const d = new Date(m.date);
+        const dateStr = d.toLocaleDateString("es-AR", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
+        return (
+          <tr>
+            <td><a href={`/${m.slug}`}>{m.teamA} vs {m.teamB}</a></td>
+            <td style="white-space:nowrap;font-size:.85rem">{dateStr}</td>
+            <td>{localTime(m.date, -3)}</td>
+            <td>{localTime(m.date, -5)}</td>
+            <td>{localTime(m.date, -6)}</td>
+            <td style="font-size:.8rem;color:#555">{m.city}</td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+
+  <h2>Escenarios de Clasificación — Grupo {letra}</h2>
+  <p>
+    Del Grupo {letra} clasifican los <strong>3 mejores equipos</strong> a los dieciseisavos de final.
+    En caso de empate en puntos, se aplican los siguientes criterios en orden: diferencia de gol, goles a favor,
+    resultado en el enfrentamiento directo y disciplina.
+  </p>
+
+  <h2>Preguntas Frecuentes — Grupo {letra}</h2>
+  {faqs.map(({ q, a }) => (
+    <div style="margin-bottom:1rem">
+      <h3>{q}</h3>
+      <p>{a}</p>
+    </div>
+  ))}
+
+  <p style="margin-top:1.5rem">
+    ← <a href="/tabla-posiciones">Tabla de posiciones</a> ·
+    <a href="/calendario">Calendario completo</a> ·
+    <a href="/cuadro-mundial-2026">Cuadro del torneo</a>
+  </p>
+</BaseLayout>

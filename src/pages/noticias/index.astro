@@ -1,0 +1,79 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { site } from "@/config/site";
+import { newsArticles } from "@/data/news";
+
+const sorted = [...newsArticles].sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
+
+const categories = [...new Set(sorted.map((n) => n.category))];
+
+const breadcrumbs = [
+  { name: "Inicio", item: site.url },
+  { name: "Noticias", item: `${site.url}/noticias` },
+];
+---
+
+<BaseLayout
+  title="Noticias del Mundial 2026 — Actualizaciones, Análisis y Guías"
+  description="Las últimas noticias del Mundial 2026: convocatorias, análisis de grupos, guías de horarios para LATAM y más. Actualizado diariamente."
+  canonical={`${site.url}/noticias`}
+  breadcrumbs={breadcrumbs}
+>
+  <h1>Noticias del Mundial 2026</h1>
+  <p>
+    Actualizaciones, análisis y guías del <strong>Mundial 2026</strong> para el público hispanohablante de América Latina.
+  </p>
+
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin:1rem 0">
+    <a href="/noticias" style="background:#f3f4f6;border:1px solid #e5e7eb;padding:.25rem .75rem;border-radius:999px;font-size:.85rem;text-decoration:none;color:#111">
+      Todas
+    </a>
+    {categories.map((cat) => (
+      <span style="background:#f3f4f6;border:1px solid #e5e7eb;padding:.25rem .75rem;border-radius:999px;font-size:.85rem;color:#555">
+        {cat}
+      </span>
+    ))}
+  </div>
+
+  <div style="display:grid;gap:1.25rem;margin:1rem 0">
+    {sorted.map((article) => {
+      const d = new Date(article.date);
+      const dateStr = d.toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+      return (
+        <article style="border:1px solid #e5e7eb;border-radius:8px;padding:1.25rem;background:#fff">
+          <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem">
+            <span style="font-size:.75rem;background:#f3f4f6;border-radius:4px;padding:.15rem .5rem;color:#555">
+              {article.category}
+            </span>
+            <time style="font-size:.8rem;color:#888" datetime={article.date}>{dateStr}</time>
+          </div>
+          <h2 style="margin:0 0 .5rem;font-size:1.15rem">
+            <a href={`/noticias/${article.slug}`}>{article.title}</a>
+          </h2>
+          <p style="margin:0;color:#555;font-size:.9rem;line-height:1.5">{article.excerpt}</p>
+          {article.teams.length > 0 && (
+            <div style="margin-top:.75rem;display:flex;gap:.4rem;flex-wrap:wrap">
+              {article.teams.map((t) => (
+                <a href={`/equipos/${t.toLowerCase().replace(/\s+/g, "-").replace(/[áéíóúü]/g, (c: string) => ({á:"a",é:"e",í:"i",ó:"o",ú:"u",ü:"u"}[c] ?? c))}`}
+                   style="font-size:.78rem;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;padding:.15rem .5rem;border-radius:4px;text-decoration:none">
+                  {t}
+                </a>
+              ))}
+            </div>
+          )}
+          <p style="margin:.75rem 0 0">
+            <a href={`/noticias/${article.slug}`} style="font-size:.875rem">Leer más →</a>
+          </p>
+        </article>
+      );
+    })}
+  </div>
+
+  <p style="margin-top:1.5rem">
+    ← <a href="/">Inicio</a> ·
+    <a href="/calendario">Calendario</a> ·
+    <a href="/faq">Preguntas frecuentes</a>
+  </p>
+</BaseLayout>

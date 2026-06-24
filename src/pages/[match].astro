@@ -1,0 +1,164 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import BroadcasterList from "@/components/BroadcasterList.astro";
+import { site } from "@/config/site";
+import { fixtures, multiTzBlock, formatDateEs, localTime, getBroadcastersForCountry } from "@/utils/fixtures";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return fixtures.map((f) => ({
+    params: { match: f.slug },
+    props: { fixture: f },
+  }));
+};
+
+const { fixture: f } = Astro.props;
+
+const title = `${f.teamA} vs ${f.teamB}: Dónde Ver en Vivo y a Qué Hora | Mundial 2026`;
+const desc = `¿Dónde ver ${f.teamA} vs ${f.teamB} en vivo? Canales oficiales por país, horarios y toda la información del partido. Mundial 2026.`;
+
+const A = f.teamA;
+const B = f.teamB;
+const keywords = [
+  `${A} vs ${B} en vivo`,
+  `${A} vs ${B} dónde ver`,
+  `${A} vs ${B} a qué hora`,
+  `${A} vs ${B} canal oficial`,
+  `${A} ${B} mundial 2026`,
+  "mundial 2026 en vivo",
+  "dónde ver el mundial 2026",
+].join(", ");
+
+const tzBlock = multiTzBlock(f.date);
+const dateEs = formatDateEs(f.date);
+const isGroupStage = !!f.group;
+
+const STAGE_NAMES: Record<string, string> = {
+  r32: "Dieciseisavos de Final",
+  r16: "Octavos de Final",
+  qf: "Cuartos de Final",
+  sf: "Semifinal",
+  third: "Partido por el Tercer Puesto",
+  final: "Final",
+};
+const stageName = f.stage ? STAGE_NAMES[f.stage] : null;
+
+// Get broadcasters for the venue country + common LATAM countries
+const countryBroadcasters = [
+  { code: "AR", name: "Argentina", tzLabel: "ARG (UTC-3)", offset: -3 },
+  { code: "CO", name: "Colombia", tzLabel: "COL (UTC-5)", offset: -5 },
+  { code: "MX", name: "México", tzLabel: "CDMX (UTC-6)", offset: -6 },
+  { code: "PE", name: "Perú", tzLabel: "PER (UTC-5)", offset: -5 },
+  { code: "CL", name: "Chile", tzLabel: "CHI (UTC-4)", offset: -4 },
+  { code: "VE", name: "Venezuela", tzLabel: "VEN (UTC-4)", offset: -4 },
+  { code: "EC", name: "Ecuador", tzLabel: "ECU (UTC-5)", offset: -5 },
+  { code: "UY", name: "Uruguay", tzLabel: "URU (UTC-3)", offset: -3 },
+  { code: "BR", name: "Brasil", tzLabel: "BRA (UTC-3)", offset: -3 },
+];
+
+const faqs = [
+  {
+    q: `¿Dónde ver ${A} vs ${B} en vivo?`,
+    a: `Podés ver ${A} vs ${B} en vivo a través de los canales oficiales de tu país. En Argentina: Telefé o TyC Sports. En Colombia: Caracol TV o RCN. En México: Canal 5 o TV Azteca. Consultá la tabla completa de canales en esta página.`,
+  },
+  {
+    q: `¿A qué hora juega ${A} vs ${B}?`,
+    a: `El partido ${A} vs ${B} se juega el ${dateEs}. Horarios: ${tzBlock}.`,
+  },
+  {
+    q: `¿Cuándo es el partido ${A} vs ${B}?`,
+    a: `${A} vs ${B} se disputa el ${dateEs} en ${f.venue}, ${f.city}.`,
+  },
+  {
+    q: `¿Qué canal transmite ${A} vs ${B} en Argentina?`,
+    a: `En Argentina, ${A} vs ${B} se transmite por Telefé (TV abierta), TyC Sports (cable) o TV Pública. Consultá la guía de Argentina para más detalles.`,
+  },
+];
+
+const breadcrumbs = [
+  { name: "Inicio", item: site.url },
+  { name: "Mundial 2026", item: `${site.url}/calendario` },
+  { name: `${A} vs ${B}` },
+];
+
+// Related matches (same group)
+const relatedMatches = f.group
+  ? fixtures.filter((x) => x.group === f.group && x.slug !== f.slug).slice(0, 4)
+  : [];
+---
+
+<BaseLayout
+  title={title}
+  description={desc}
+  keywords={keywords}
+  canonical={`${site.url}/${f.slug}`}
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+  match={{ teamA: f.teamA, teamB: f.teamB, date: f.date, venue: f.venue, city: f.city, slug: f.slug, countryCode: f.country }}
+>
+  <h1>¿Dónde Ver {A} vs {B} en Vivo? — Mundial 2026</h1>
+
+  <div class="match-card" style="background:#f9fafb">
+    <div class="teams" style="font-size:1.35rem">{A} vs {B}</div>
+    <div class="meta" style="margin:.3rem 0">{dateEs} · {f.venue}, {f.city}</div>
+    {isGroupStage && <div class="meta">Grupo {f.group} — Fecha {f.matchday}</div>}
+    {stageName && <div class="meta">{stageName} — Mundial 2026</div>}
+    <div class="tz-block" style="margin:.5rem 0">{tzBlock}</div>
+  </div>
+
+  <h2>Canales Oficiales por País — {A} vs {B}</h2>
+  <p>Seleccioná tu país para ver el canal oficial donde transmiten este partido:</p>
+
+  <table>
+    <thead>
+      <tr><th>País</th><th>Hora local</th><th>Canal oficial</th></tr>
+    </thead>
+    <tbody>
+      {countryBroadcasters.map(({ code, name, tzLabel, offset }) => {
+        const bcast = getBroadcastersForCountry(code);
+        const primary = bcast[0];
+        return (
+          <tr>
+            <td><a href={`/${name.toLowerCase().replace(/[^a-z]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "")}`}>{name}</a></td>
+            <td>{localTime(f.date, offset)} hs ({tzLabel})</td>
+            <td>
+              {primary ? (
+                <a href={primary.url} target="_blank" rel="noopener">{primary.name}</a>
+              ) : (
+                <a href={site.fifaWatchUrl} target="_blank" rel="noopener">Ver en FIFA+</a>
+              )}
+            </td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+
+  <h2>Horarios por País — {A} vs {B}</h2>
+  <div class="tz-block">{tzBlock}</div>
+
+  <h2>Preguntas Frecuentes — {A} vs {B}</h2>
+  {faqs.map(({ q, a }) => (
+    <div style="margin-bottom:1rem">
+      <h3>{q}</h3>
+      <p>{a}</p>
+    </div>
+  ))}
+
+  {relatedMatches.length > 0 && (
+    <>
+      <h2>Otros Partidos del Grupo {f.group}</h2>
+      <ul style="list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:.5rem">
+        {relatedMatches.map((m) => (
+          <li><a href={`/${m.slug}`} class="tag">{m.teamA} vs {m.teamB}</a></li>
+        ))}
+      </ul>
+    </>
+  )}
+
+  <p style="margin-top:1.5rem">
+    ← <a href="/calendario">Ver calendario completo</a> ·
+    <a href="/partidos-hoy">Partidos de hoy</a> ·
+    <a href={site.fifaUrl} target="_blank" rel="noopener">FIFA oficial</a>
+  </p>
+</BaseLayout>
