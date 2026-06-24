@@ -9,8 +9,7 @@
     "astro": "astro",
     "build:fixtures": "node scripts/build-fixtures.mjs",
     "verify:broadcasters": "node scripts/verify-broadcasters.mjs",
-    "push:today": "node scripts/push-today.mjs",
-    "validate": "node scripts/validate.mjs"
+    "push:today": "node scripts/push-today.mjs"
   },
   "dependencies": {
     "astro": "^4.15.0",
