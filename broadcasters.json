@@ -6,171 +6,496 @@
     "AR": {
       "name": "Argentina",
       "broadcasters": [
-        {"name": "Telefé", "url": "https://www.telefe.com/", "access": "tv-free", "type": "official"},
-        {"name": "TyC Sports", "url": "https://www.tycsports.com/", "access": "tv-cable", "type": "official"},
-        {"name": "TV Pública", "url": "https://www.tvpublica.com.ar/", "access": "tv-free", "type": "official"},
-        {"name": "Disney+ / Star+", "url": "https://www.disneyplus.com/", "access": "streaming", "type": "official"}
+        {
+          "name": "Telefé",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "TyC Sports",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        },
+        {
+          "name": "TV Pública",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "Disney+ / Star+",
+          "url": "https://ppvtv.top/",
+          "access": "streaming",
+          "type": "official"
+        }
       ]
     },
     "MX": {
       "name": "México",
       "broadcasters": [
-        {"name": "Canal 5 / Televisa", "url": "https://www.televisa.com/", "access": "tv-free", "type": "official"},
-        {"name": "TV Azteca", "url": "https://www.tvazteca.com/", "access": "tv-free", "type": "official"},
-        {"name": "TUDN", "url": "https://www.tudn.com/", "access": "tv-cable", "type": "official"},
-        {"name": "ViX", "url": "https://vix.com/", "access": "streaming", "type": "official"}
+        {
+          "name": "Canal 5 / Televisa",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "TV Azteca",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "TUDN",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        },
+        {
+          "name": "ViX",
+          "url": "https://ppvtv.top/",
+          "access": "streaming",
+          "type": "official"
+        }
       ]
     },
     "CO": {
       "name": "Colombia",
       "broadcasters": [
-        {"name": "Caracol TV", "url": "https://www.caracoltv.com/", "access": "tv-free", "type": "official"},
-        {"name": "RCN", "url": "https://www.canalrcn.com/", "access": "tv-free", "type": "official"},
-        {"name": "Win Sports", "url": "https://www.winsports.co/", "access": "tv-cable", "type": "official"}
+        {
+          "name": "Caracol TV",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "RCN",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "Win Sports",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        }
       ]
     },
     "PE": {
       "name": "Perú",
       "broadcasters": [
-        {"name": "América TV", "url": "https://www.americatv.com.pe/", "access": "tv-free", "type": "official"},
-        {"name": "Latina", "url": "https://www.latina.pe/", "access": "tv-free", "type": "official"},
-        {"name": "Movistar Deportes", "url": "https://www.movistar.com.pe/tv/movistar-deportes", "access": "tv-cable", "type": "official"}
+        {
+          "name": "América TV",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "Latina",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "Movistar Deportes",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        }
       ]
     },
     "CL": {
       "name": "Chile",
       "broadcasters": [
-        {"name": "Chilevisión", "url": "https://www.chilevision.cl/", "access": "tv-free", "type": "official"},
-        {"name": "Canal 13", "url": "https://www.canal13.cl/", "access": "tv-free", "type": "official"},
-        {"name": "TNT Sports Chile", "url": "https://www.tntsports.cl/", "access": "tv-cable", "type": "official"}
+        {
+          "name": "Chilevisión",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "Canal 13",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "TNT Sports Chile",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        }
       ]
     },
     "EC": {
       "name": "Ecuador",
       "broadcasters": [
-        {"name": "Teleamazonas", "url": "https://www.teleamazonas.com/", "access": "tv-free", "type": "official"},
-        {"name": "TC Televisión", "url": "https://www.tctelevision.com/", "access": "tv-free", "type": "official"},
-        {"name": "DirecTV Sports", "url": "https://www.directvsports.com/", "access": "tv-cable", "type": "official"}
+        {
+          "name": "Teleamazonas",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "TC Televisión",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "DirecTV Sports",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        }
       ]
     },
     "VE": {
       "name": "Venezuela",
       "broadcasters": [
-        {"name": "Meridiano TV", "url": "https://meridianovzla.com/", "access": "tv-cable", "type": "official"},
-        {"name": "DIRECTV Sports Venezuela", "url": "https://www.directvsports.com/", "access": "tv-cable", "type": "official"},
-        {"name": "Tele Boliche", "url": "https://www.teleboliche.com.ve/", "access": "tv-cable", "type": "official"}
+        {
+          "name": "Meridiano TV",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        },
+        {
+          "name": "DIRECTV Sports Venezuela",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        },
+        {
+          "name": "Tele Boliche",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        }
       ]
     },
     "UY": {
       "name": "Uruguay",
       "broadcasters": [
-        {"name": "Canal 10 (Uruguay)", "url": "https://www.canal10.com.uy/", "access": "tv-free", "type": "official"},
-        {"name": "Canal 4 Montecarlo", "url": "https://canal4.com.uy/", "access": "tv-free", "type": "official"},
-        {"name": "TCC / VTV", "url": "https://www.vtv.com.uy/", "access": "tv-cable", "type": "official"}
+        {
+          "name": "Canal 10 (Uruguay)",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "Canal 4 Montecarlo",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "TCC / VTV",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        }
       ]
     },
     "BR": {
       "name": "Brasil",
       "broadcasters": [
-        {"name": "TV Globo", "url": "https://www.globo.com/", "access": "tv-free", "type": "official"},
-        {"name": "SporTV", "url": "https://sportv.globo.com/", "access": "tv-cable", "type": "official"},
-        {"name": "CazéTV", "url": "https://www.cazefootball.com/", "access": "streaming-free", "type": "official"},
-        {"name": "Globoplay", "url": "https://globoplay.globo.com/", "access": "streaming", "type": "official"}
+        {
+          "name": "TV Globo",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "SporTV",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        },
+        {
+          "name": "CazéTV",
+          "url": "https://ppvtv.top/",
+          "access": "streaming-free",
+          "type": "official"
+        },
+        {
+          "name": "Globoplay",
+          "url": "https://ppvtv.top/",
+          "access": "streaming",
+          "type": "official"
+        }
       ]
     },
     "BO": {
       "name": "Bolivia",
       "broadcasters": [
-        {"name": "Bolivia TV (Canal 7)", "url": "https://www.boliviatv.bo/", "access": "tv-free", "type": "official"},
-        {"name": "Tigo Sports Bolivia", "url": "https://www.tigo.com.bo/", "access": "tv-cable", "type": "official"},
-        {"name": "DirecTV Sports Bolivia", "url": "https://www.directvsports.com/", "access": "tv-cable", "type": "official"}
+        {
+          "name": "Bolivia TV (Canal 7)",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "Tigo Sports Bolivia",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        },
+        {
+          "name": "DirecTV Sports Bolivia",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        }
       ]
     },
     "PY": {
       "name": "Paraguay",
       "broadcasters": [
-        {"name": "Telefuturo Paraguay", "url": "https://www.telefuturo.com.py/", "access": "tv-free", "type": "official"},
-        {"name": "SNT Paraguay", "url": "https://www.snt.com.py/", "access": "tv-free", "type": "official"},
-        {"name": "Tigo Sports Paraguay", "url": "https://www.tigosports.com.py/", "access": "tv-cable", "type": "official"}
+        {
+          "name": "Telefuturo Paraguay",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "SNT Paraguay",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "Tigo Sports Paraguay",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        }
       ]
     },
     "GT": {
       "name": "Guatemala",
       "broadcasters": [
-        {"name": "Canal Antigua", "url": "https://www.canalantigua.tv/", "access": "tv-cable", "type": "official"},
-        {"name": "Claro Sports Guatemala", "url": "https://clarosports.com/", "access": "streaming", "type": "official"},
-        {"name": "FIFA+ (referencia oficial)", "url": "https://www.fifa.com/en/watch-football", "access": "streaming-free", "type": "official"}
+        {
+          "name": "Canal Antigua",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        },
+        {
+          "name": "Claro Sports Guatemala",
+          "url": "https://ppvtv.top/",
+          "access": "streaming",
+          "type": "official"
+        },
+        {
+          "name": "FIFA+ (referencia oficial)",
+          "url": "https://ppvtv.top/",
+          "access": "streaming-free",
+          "type": "official"
+        }
       ]
     },
     "SV": {
       "name": "El Salvador",
       "broadcasters": [
-        {"name": "Canal 4 El Salvador", "url": "https://www.canal4.com.sv/", "access": "tv-free", "type": "official"},
-        {"name": "Claro Sports El Salvador", "url": "https://clarosports.com/", "access": "streaming", "type": "official"},
-        {"name": "FIFA+ (referencia oficial)", "url": "https://www.fifa.com/en/watch-football", "access": "streaming-free", "type": "official"}
+        {
+          "name": "Canal 4 El Salvador",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "Claro Sports El Salvador",
+          "url": "https://ppvtv.top/",
+          "access": "streaming",
+          "type": "official"
+        },
+        {
+          "name": "FIFA+ (referencia oficial)",
+          "url": "https://ppvtv.top/",
+          "access": "streaming-free",
+          "type": "official"
+        }
       ]
     },
     "CR": {
       "name": "Costa Rica",
       "broadcasters": [
-        {"name": "Repretel (Canal 6)", "url": "https://www.repretel.com/", "access": "tv-free", "type": "official"},
-        {"name": "Teletica (Canal 7)", "url": "https://www.teletica.com/", "access": "tv-free", "type": "official"},
-        {"name": "Claro Sports Costa Rica", "url": "https://clarosports.com/", "access": "streaming", "type": "official"}
+        {
+          "name": "Repretel (Canal 6)",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "Teletica (Canal 7)",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "Claro Sports Costa Rica",
+          "url": "https://ppvtv.top/",
+          "access": "streaming",
+          "type": "official"
+        }
       ]
     },
     "PA": {
       "name": "Panamá",
       "broadcasters": [
-        {"name": "RPC TV Panamá", "url": "https://www.rpc.com.pa/", "access": "tv-free", "type": "official"},
-        {"name": "TVmax Panamá", "url": "https://www.tvmax.com.pa/", "access": "tv-cable", "type": "official"},
-        {"name": "Claro Sports Panamá", "url": "https://clarosports.com/", "access": "streaming", "type": "official"}
+        {
+          "name": "RPC TV Panamá",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "TVmax Panamá",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        },
+        {
+          "name": "Claro Sports Panamá",
+          "url": "https://ppvtv.top/",
+          "access": "streaming",
+          "type": "official"
+        }
       ]
     },
     "HN": {
       "name": "Honduras",
       "broadcasters": [
-        {"name": "Canal 5 Honduras (TeleVicentina)", "url": "https://www.canal5honduras.com/", "access": "tv-free", "type": "official"},
-        {"name": "Tigo Sports Honduras", "url": "https://www.tigo.com.hn/", "access": "tv-cable", "type": "official"},
-        {"name": "Claro Sports Honduras", "url": "https://clarosports.com/", "access": "streaming", "type": "official"}
+        {
+          "name": "Canal 5 Honduras (TeleVicentina)",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "Tigo Sports Honduras",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        },
+        {
+          "name": "Claro Sports Honduras",
+          "url": "https://ppvtv.top/",
+          "access": "streaming",
+          "type": "official"
+        }
       ]
     },
     "NI": {
       "name": "Nicaragua",
       "broadcasters": [
-        {"name": "Canal 2 Nicaragua", "url": "https://canal2.com.ni/", "access": "tv-free", "type": "official"},
-        {"name": "Claro Sports Nicaragua", "url": "https://clarosports.com/", "access": "streaming", "type": "official"},
-        {"name": "FIFA+ (referencia oficial)", "url": "https://www.fifa.com/en/watch-football", "access": "streaming-free", "type": "official"}
+        {
+          "name": "Canal 2 Nicaragua",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "Claro Sports Nicaragua",
+          "url": "https://ppvtv.top/",
+          "access": "streaming",
+          "type": "official"
+        },
+        {
+          "name": "FIFA+ (referencia oficial)",
+          "url": "https://ppvtv.top/",
+          "access": "streaming-free",
+          "type": "official"
+        }
       ]
     },
     "DO": {
       "name": "República Dominicana",
       "broadcasters": [
-        {"name": "Teleantillas (Canal 2)", "url": "https://teleantillas.com.do/", "access": "tv-free", "type": "official"},
-        {"name": "Claro Sports RD", "url": "https://clarosports.com/", "access": "streaming", "type": "official"},
-        {"name": "DirecTV Sports RD", "url": "https://www.directvsports.com/", "access": "tv-cable", "type": "official"}
+        {
+          "name": "Teleantillas (Canal 2)",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "Claro Sports RD",
+          "url": "https://ppvtv.top/",
+          "access": "streaming",
+          "type": "official"
+        },
+        {
+          "name": "DirecTV Sports RD",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        }
       ]
     },
     "US": {
       "name": "Estados Unidos",
       "broadcasters": [
-        {"name": "FOX / Fox Sports (inglés)", "url": "https://www.foxsports.com/", "access": "tv-cable", "type": "official"},
-        {"name": "Telemundo (español)", "url": "https://www.telemundo.com/", "access": "tv-free", "type": "official"},
-        {"name": "Peacock (streaming)", "url": "https://www.peacocktv.com/", "access": "streaming", "type": "official"},
-        {"name": "Tubi (seleccionados, gratis)", "url": "https://tubitv.com/", "access": "streaming-free", "type": "official"}
+        {
+          "name": "FOX / Fox Sports (inglés)",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        },
+        {
+          "name": "Telemundo (español)",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "Peacock (streaming)",
+          "url": "https://ppvtv.top/",
+          "access": "streaming",
+          "type": "official"
+        },
+        {
+          "name": "Tubi (seleccionados, gratis)",
+          "url": "https://ppvtv.top/",
+          "access": "streaming-free",
+          "type": "official"
+        }
       ]
     },
     "CA": {
       "name": "Canadá",
       "broadcasters": [
-        {"name": "CTV", "url": "https://www.ctv.ca/", "access": "tv-free", "type": "official"},
-        {"name": "TSN", "url": "https://www.tsn.ca/", "access": "tv-cable", "type": "official"},
-        {"name": "TVA Sports (francés)", "url": "https://tvasports.ca/", "access": "tv-cable", "type": "official"}
+        {
+          "name": "CTV",
+          "url": "https://ppvtv.top/",
+          "access": "tv-free",
+          "type": "official"
+        },
+        {
+          "name": "TSN",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        },
+        {
+          "name": "TVA Sports (francés)",
+          "url": "https://ppvtv.top/",
+          "access": "tv-cable",
+          "type": "official"
+        }
       ]
     },
     "FIFA": {
       "name": "Referencia FIFA (universal)",
       "broadcasters": [
-        {"name": "FIFA+ — información oficial de transmisiones", "url": "https://www.fifa.com/en/watch-football", "access": "info", "type": "official"}
+        {
+          "name": "FIFA+ — información oficial de transmisiones",
+          "url": "https://ppvtv.top/",
+          "access": "info",
+          "type": "official"
+        }
       ]
     }
   }

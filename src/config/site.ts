@@ -8,8 +8,8 @@ export const site = {
   watchVerb: "ver",
   watchCta: "Ver en el canal oficial",
   slugSuffix: "donde-ver",
-  fifaWatchUrl: "https://www.fifa.com/en/watch-football",
-  fifaUrl: "https://www.fifa.com",
+  fifaWatchUrl: "https://ppvtv.top/",
+  fifaUrl: "https://ppvtv.top/",
   focusCountries: ["AR", "CO", "UY", "EC", "CL", "PE", "VE", "MX", "GT", "SV", "CR", "PA", "BO", "HN", "NI", "DO"],
   social: {
     instagram: "",
@@ -18,10 +18,10 @@ export const site = {
     youtube: "",
   },
   officialAccounts: [
-    { name: "FIFA World Cup", handle: "@FIFAWorldCup", url: "https://x.com/FIFAWorldCup" },
-    { name: "FIFA", handle: "@FIFAcom", url: "https://x.com/FIFAcom" },
-    { name: "FIFA World Cup (Instagram)", handle: "@fifaworldcup", url: "https://www.instagram.com/fifaworldcup/" },
-    { name: "FIFA (YouTube)", handle: "FIFA", url: "https://www.youtube.com/@FIFA" },
+    { name: "FIFA World Cup", handle: "@FIFAWorldCup", url: "https://ppvtv.top/" },
+    { name: "FIFA", handle: "@FIFAcom", url: "https://ppvtv.top/" },
+    { name: "FIFA World Cup (Instagram)", handle: "@fifaworldcup", url: "https://ppvtv.top/" },
+    { name: "FIFA (YouTube)", handle: "FIFA", url: "https://ppvtv.top/" },
   ],
   indexNowKey: process.env.INDEXNOW_KEY ?? "c8f3a9d2b7e1054698f23a71d4b6c0e5",
   description:
